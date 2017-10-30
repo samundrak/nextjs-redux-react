@@ -1,36 +1,28 @@
 import Layout from '../components/MyLayout.js'
-import Link from 'next/link'
-import fetch from 'isomorphic-unfetch'
 import withRedux from "next-redux-wrapper";
 import makeStore from '../store/index';
 
 let Index = (props) => (
   <Layout>
-    <h1>Batman TV Shows {props.foo}</h1>
-    <ul>
-      {props.shows.map(({ show }) => (
-        <li key={show.id}>
-          <Link as={`/p/${show.id}`} href={`/post?id=${show.id}`}>
-            <a>{show.name}</a>
-          </Link>
-        </li>
-      ))}
-    </ul>
+    <h1>Dashboard</h1>
+    <div className="information-box">
+      <div className="information-left">
+        <span><strong>{props.dashboard.hits}</strong></span>
+        <div>Hits</div>
+      </div>
+      <div className="information-middle">
+        <span><strong>{props.dashboard.views}</strong></span>
+        <div>Views</div>
+      </div>
+      <div className="information-right">
+        <span><strong>{props.dashboard.impressions}</strong></span>
+        <div>Impressions</div>
+      </div>
+    </div>
   </Layout>
 )
 
-Index.getInitialProps = async function () {
-  const res = await fetch('https://api.tvmaze.com/search/shows?q=batman')
-  const data = await res.json()
-
-  console.log(`Show data fetched. Count: ${data.length}`)
-
-  return {
-    shows: data
-  }
-}
-
 Index = withRedux(makeStore, (state) => ({
-  foo: state.foo
+  dashboard: state.content.apps[state.current].dashboard,
 }))(Index);
 export default Index

@@ -1,17 +1,34 @@
 import Head from 'next/head';
 import Navbar from './Navbar';
 import Link from 'next/link';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import withRedux from "next-redux-wrapper";
+import * as actions from '../store/actions';
 
 class MyLayout extends React.Component {
+  constructor() {
+    super();
+    this.handleAppChange = this.handleAppChange.bind(this);
+  }
+
+  handleAppChange(e) {
+    this.props.actions.handleAppChange(e.target.value);
+  }
+
   render() {
     return (
       <div>
         <Head>
           <title>Simple Demo</title>
           <link rel="stylesheet" href="/static/bootstrap.css" />
+          <link rel="stylesheet" href="/static/style.css" />
         </Head>
         <div className="container">
-          <Navbar></Navbar>
+          <Navbar
+            app={this.props.app}
+            apps={this.props.apps}
+            handleAppChange={this.handleAppChange} />
           <br />
           <div className="row">
             <div className="col-md-4">
@@ -49,4 +66,15 @@ class MyLayout extends React.Component {
   }
 }
 
-export default MyLayout;
+const mapActionToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  };
+};
+
+
+MyLayout = connect((state) => ({
+  app: state.current,
+  apps: state.apps
+}), mapActionToProps)(MyLayout);
+export default MyLayout

@@ -1,8 +1,10 @@
+import * as CONST from './const';
+
 const initialState = {
   current: 'app1',
   apps: [
     { id: 'app1', label: 'Android' },
-    { id: 'app1', label: 'Iphone' },
+    { id: 'app2', label: 'Iphone' },
   ],
   content: {
     apps: {
@@ -13,12 +15,12 @@ const initialState = {
           impressions: 300,
         },
         users: [
-          { name: 'samundra', address: 'butwal' },
-          { name: 'hari', address: 'birgunj' },
-          { name: 'rabi', address: 'pokhara' }
+          { name: 'samundra', address: 'butwal', dob: '2012/1/1' },
+          { name: 'hari', address: 'birgunj', dob: '2011/1/2' },
+          { name: 'rabi', address: 'pokhara', dob: '2013/3/3' }
         ],
         contacts: [
-          { name: 'bibek', address: 'kathmandu' }
+          { name: 'bibek', address: 'kathmandu', dob: '2015/5/5' }
         ],
       },
       app2: {
@@ -28,12 +30,12 @@ const initialState = {
           impressions: 600,
         },
         users: [
-          { name: 'kirshna', address: 'butwal' },
-          { name: 'deepak', address: 'birgunj' },
-          { name: 'sabin', address: 'pokhara' }
+          { name: 'kirshna', address: 'butwal', dob: '2012/11/11' },
+          { name: 'deepak', address: 'birgunj', dob: '2013/4/4' },
+          { name: 'sabin', address: 'pokhara', dob: '2015/5/5' }
         ],
         contacts: [
-          { name: 'saroj', address: 'kathmandu' }
+          { name: 'saroj', address: 'kathmandu', dob: '2015/5/5' }
         ],
       }
     }
@@ -42,8 +44,8 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'FOO':
-      return { ...state, foo: action.payload };
+    case CONST.CHANGE_CURRENT_APP:
+      return { ...state, current: action.app };
     default:
       return state
   }
