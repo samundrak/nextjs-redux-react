@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/.bin/next start",
+    "start": "next start -p $PORT",
+    "heroku-postbuild": "next build",
     "dev": "node server.js",
     "build": "next build"
   },
